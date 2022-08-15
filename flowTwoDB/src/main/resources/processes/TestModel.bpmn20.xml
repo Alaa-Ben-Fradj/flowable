@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:flowable="http://flowable.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" xmlns:design="http://flowable.org/design" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://flowable.org/test" design:palette="flowable-process-palette">
+  <process id="modalDesign" name="TestModel" isExecutable="true" flowable:candidateStarterGroups="flowableUser">
+    
+    <startEvent id="start" name="start" flowable:formFieldValidation="false">
+      <extensionElements>
+        <flowable:work-form-field-validation><![CDATA[false]]></flowable:work-form-field-validation>
+        <design:stencilid><![CDATA[StartNoneEvent]]></design:stencilid>
+      </extensionElements>
+    </startEvent>
+    <sequenceFlow id="sequenceFlow1" sourceRef="start" targetRef="firstTask">
+     
+    </sequenceFlow>
+    <userTask id="firstTask" name="firstTask" flowable:candidateGroups="admin" flowable:formFieldValidation="false">
+    </userTask>
+    <userTask id="secondTask" name="secondTask" flowable:assignee="${user}" flowable:formFieldValidation="false">
+      
+    </userTask>
+    <exclusiveGateway id="Failed" name="failGateway">
+     
+    </exclusiveGateway>
+    <sequenceFlow id="sequenceFlow2" sourceRef="firstTask" targetRef="Failed">
+      
+    </sequenceFlow>
+    <sequenceFlow id="sequenceFlow3" sourceRef="Failed" targetRef="secondTask">
+      
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${!failed}]]></conditionExpression>
+    </sequenceFlow>
+    <endEvent id="endNoneEvent1">
+    
+    </endEvent>
+    <endEvent id="end" name="end">
+     
+    </endEvent>
+    <serviceTask id="afterScondTask" name="after Second" flowable:delegateExpression="${printer}">
+      
+    </serviceTask>
+    <sequenceFlow id="sequenceFlow5" sourceRef="secondTask" targetRef="afterScondTask">
+      
+    </sequenceFlow>
+    <sequenceFlow id="sequenceFlow6" sourceRef="afterScondTask" targetRef="end">
+      
+    </sequenceFlow>
+    <serviceTask id="afterFirst" name="after first task" flowable:class="com.twoDB.flowable.handler.FailPrinter">
+      
+    </serviceTask>
+    <sequenceFlow id="sequenceFlow8" sourceRef="afterFirst" targetRef="endNoneEvent1">
+      
+    </sequenceFlow>
+    <sequenceFlow id="sequenceFlow7" sourceRef="Failed" targetRef="afterFirst">
+      
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${failed}]]></conditionExpression>
+    </sequenceFlow>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_testModel">
+    <bpmndi:BPMNPlane bpmnElement="testModel" id="BPMNPlane_testModel">
+      <bpmndi:BPMNShape bpmnElement="start" id="BPMNShape_start">
+        <omgdc:Bounds height="30.0" width="30.0" x="105.0" y="285.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="firstTask" id="BPMNShape_firstTask">
+        <omgdc:Bounds height="80.0" width="100.0" x="316.0" y="241.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="secondTask" id="BPMNShape_secondTask">
+        <omgdc:Bounds height="80.0" width="100.0" x="615.0" y="105.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="Failed" id="BPMNShape_Failed">
+        <omgdc:Bounds height="40.0" width="40.0" x="525.0" y="280.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="endNoneEvent1" id="BPMNShape_endNoneEvent1">
+        <omgdc:Bounds height="28.0" width="28.0" x="840.0" y="420.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="end" id="BPMNShape_end">
+        <omgdc:Bounds height="28.0" width="28.0" x="1065.0" y="131.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="afterScondTask" id="BPMNShape_afterScondTask">
+        <omgdc:Bounds height="80.0" width="100.0" x="841.0" y="105.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="afterFirst" id="BPMNShape_afterFirst">
+        <omgdc:Bounds height="80.0" width="100.0" x="495.0" y="405.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="sequenceFlow5" id="BPMNEdge_sequenceFlow5" flowable:sourceDockerX="50.0" flowable:sourceDockerY="40.0" flowable:targetDockerX="50.0" flowable:targetDockerY="40.0">
+        <omgdi:waypoint x="714.9499999999057" y="145.0"></omgdi:waypoint>
+        <omgdi:waypoint x="840.9999999999677" y="145.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sequenceFlow6" id="BPMNEdge_sequenceFlow6" flowable:sourceDockerX="50.0" flowable:sourceDockerY="40.0" flowable:targetDockerX="14.0" flowable:targetDockerY="14.0">
+        <omgdi:waypoint x="940.9499999998865" y="145.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1065.0" y="145.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sequenceFlow3" id="BPMNEdge_sequenceFlow3" flowable:sourceDockerX="20.0" flowable:sourceDockerY="20.0" flowable:targetDockerX="50.0" flowable:targetDockerY="40.0">
+        <omgdi:waypoint x="564.9416944211715" y="300.0"></omgdi:waypoint>
+        <omgdi:waypoint x="665.0" y="300.0"></omgdi:waypoint>
+        <omgdi:waypoint x="665.0" y="184.95"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sequenceFlow1" id="BPMNEdge_sequenceFlow1" flowable:sourceDockerX="15.0" flowable:sourceDockerY="15.0" flowable:targetDockerX="1.0" flowable:targetDockerY="40.0">
+        <omgdi:waypoint x="134.9499983584564" y="300.0"></omgdi:waypoint>
+        <omgdi:waypoint x="225.5" y="300.0"></omgdi:waypoint>
+        <omgdi:waypoint x="225.5" y="281.0"></omgdi:waypoint>
+        <omgdi:waypoint x="316.0" y="281.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sequenceFlow2" id="BPMNEdge_sequenceFlow2" flowable:sourceDockerX="50.0" flowable:sourceDockerY="40.0" flowable:targetDockerX="20.0" flowable:targetDockerY="20.0">
+        <omgdi:waypoint x="415.95000000000005" y="281.0"></omgdi:waypoint>
+        <omgdi:waypoint x="470.5" y="281.0"></omgdi:waypoint>
+        <omgdi:waypoint x="470.5" y="300.0"></omgdi:waypoint>
+        <omgdi:waypoint x="525.0" y="300.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sequenceFlow7" id="BPMNEdge_sequenceFlow7" flowable:sourceDockerX="20.5" flowable:sourceDockerY="20.5" flowable:targetDockerX="50.0" flowable:targetDockerY="40.0">
+        <omgdi:waypoint x="545.4340277777778" y="319.5091776544067"></omgdi:waypoint>
+        <omgdi:waypoint x="545.1382352941176" y="405.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sequenceFlow8" id="BPMNEdge_sequenceFlow8" flowable:sourceDockerX="50.0" flowable:sourceDockerY="40.0" flowable:targetDockerX="14.0" flowable:targetDockerY="14.0">
+        <omgdi:waypoint x="594.95" y="445.0"></omgdi:waypoint>
+        <omgdi:waypoint x="777.5" y="445.0"></omgdi:waypoint>
+        <omgdi:waypoint x="777.5" y="434.0"></omgdi:waypoint>
+        <omgdi:waypoint x="840.0" y="434.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>
